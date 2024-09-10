@@ -1,11 +1,9 @@
 public class Location {
-    
     public int ID;
     public string Name;
     public string Description;
-    public List<Quest> Quests
-    public List<Monster> Monsters
-
+    public List<Quest> Quests;
+    public List<Monster> Monsters;
     
     public Location(int id, string name, string description, List<Quest> quests, List<Monster> monsters) {
         ID = id;
