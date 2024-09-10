@@ -30,7 +30,7 @@ public class Monster
         }
     }
 
-    public void isAlive() {
+    public bool isAlive() {
         if (Health > 0) {
             return true;
         }
