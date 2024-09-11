@@ -62,13 +62,15 @@
 
         // Locations
         // ----------------------------------------------------------------------
-        Location overworld = new Location(531, "Overworld", "", 32, 32);
-
+        Location overworld = new Location(531, "Overworld 🌏", "", 32, 32);
+        Location village1 = new Location(531,  "Old Town  🌆", "", 32, 32);
+        Location village2 = new Location(531,  "New Town  🏙️", "", 32, 32);
+        Location theSwamp = new Location(534,  "The Swamp 🎋", "", 32, 32);
 
         // Game player
         // ----------------------------------------------------------------------
         // The player always starts with 100% health
-        Player player = new Player("The Hero", weapon_rustySword);
+        Player player = new Player("The Hero", "⛄︎", weapon_rustySword);
 
         // Game logic
         // ----------------------------------------------------------------------
