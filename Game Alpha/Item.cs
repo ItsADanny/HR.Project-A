@@ -9,11 +9,10 @@ public class Item
     public Item(int id, string name, string description, string icon, string type)
     {
         ID = id;
-		Name = name;
-		Description = description;
+        Name = name;
+        Description = description;
         Icon = icon;
         Type = type;
     }
-
 
 }

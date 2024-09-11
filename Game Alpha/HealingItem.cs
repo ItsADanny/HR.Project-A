@@ -1,5 +1,3 @@
-using System.Data.Common;
-
 public class HealingItem {
     public int ID;
     public string Name;
