@@ -38,10 +38,10 @@ public class Player
         Console.WriteLine(" ");
         Console.WriteLine($" Compass  | Player: {Name}");
         Console.WriteLine("==========|===========================================");
-        Console.WriteLine($"   N      | Health: {Health}");
-        Console.WriteLine($"   |      | Current weapon: {CurrentWeapon.Name}");
-        Console.WriteLine($"W--0--E   | Current quest: {CurrentQuest.Name}");
-        Console.WriteLine("   |      |");
+        Console.WriteLine($"   N      | Health           : {Health}");
+        Console.WriteLine($"   |      | Current weapon   : {CurrentWeapon.Name}");
+        Console.WriteLine($"W--0--E   | Current position : X: {PositionX} Y: {PositionY}");
+        Console.WriteLine($"   |      | Current quest    : {CurrentQuest.Name}");
         Console.WriteLine("   S      |");
         Console.WriteLine(" ");
         Console.WriteLine("Movement options (N/E/S/W), Open Inventory (I), Switch Weapon (R)");

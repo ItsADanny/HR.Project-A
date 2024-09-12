@@ -7,8 +7,9 @@ public class Location {
     public List<Quest> Quests;
     public List<Monster> Monsters;
     public List<WorldStructure> WorldStructures;
+    public Player Player;
     
-    public Location(int id, string name, string description, int location_size_x, int location_size_y) {
+    public Location(int id, string name, string description, int location_size_x, int location_size_y, Player player) {
         ID = id;
         Name = name;
         Description = description;
@@ -17,6 +18,7 @@ public class Location {
         Quests = new List<Quest>();
         Monsters = new List<Monster>();
         WorldStructures = new List<WorldStructure>();
+        Player = player;
     }
 
     public void AddQuests(Quest quest) => Quests.Add(quest);
@@ -74,6 +76,13 @@ public class Location {
                             map_row += worldStructure.MapIcon;
                             somethingIsAlreadyOnThisLocation = true;
                         }
+                    }
+                }
+
+                if (Player.PositionX == x & Player.PositionY == y) {
+                    if (!somethingIsAlreadyOnThisLocation) {
+                        map_row += Player.MapIcon;
+                        somethingIsAlreadyOnThisLocation = true;
                     }
                 }
 

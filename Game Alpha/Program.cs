@@ -60,17 +60,17 @@
         Quest quest_2_swampySituation = new Quest(422, "", "", "", "", 7, 7);
         Quest quest_3_TheOldCastle = new Quest(423, "", "", "", "", 9, 9);
 
-        // Locations
-        // ----------------------------------------------------------------------
-        Location overworld = new Location(531, "Overworld 🌏", "", 32, 32);
-        Location village1 = new Location(531,  "Old Town  🌆", "", 32, 32);
-        Location village2 = new Location(531,  "New Town  🏙️", "", 32, 32);
-        Location theSwamp = new Location(534,  "The Swamp 🎋", "", 32, 32);
-
         // Game player
         // ----------------------------------------------------------------------
         // The player always starts with 100% health
         Player player = new Player("The Hero", "⛄︎", weapon_rustySword);
+
+        // Locations
+        // ----------------------------------------------------------------------
+        Location overworld = new Location(531, "Overworld 🌏", "", 32, 32, player);
+        Location village1 = new Location(531,  "Old Town  🌆", "", 32, 32, player);
+        Location village2 = new Location(531,  "New Town  🏙️", "", 32, 32, player);
+        Location theSwamp = new Location(534,  "The Swamp 🎋", "", 32, 32, player);
 
         // Game logic
         // ----------------------------------------------------------------------
@@ -82,6 +82,44 @@
             current_location.GenMap();
             player.PrintMenu();
             string str_movement_choice = Console.ReadLine().ToLower();
+
+            switch (str_movement_choice) {
+                case "n":
+                    if (player.PositionY + 1 > current_location.LocationSizeY) {
+                        Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
+                    } else {
+                        Console.WriteLine($"{player.Name}: I moved one place to the North");
+                        player.PositionY += 1;
+                    }
+                    break;
+                case "e":
+                    if (player.PositionX + 1 > current_location.LocationSizeX) {
+                        Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
+                    } else {
+                        Console.WriteLine($"{player.Name}: I moved one place to the East");
+                        player.PositionX += 1;
+                    }
+                    break;
+                case "s":
+                    if (player.PositionY - 1 > current_location.LocationSizeY || player.PositionY - 1 < 0) {
+                        Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
+                    } else {
+                        Console.WriteLine($"{player.Name}: I moved one place to the South");
+                        player.PositionY -= 1;
+                    }
+                    break;
+                case "w":
+                    if (player.PositionX - 1 > current_location.LocationSizeX || player.PositionX - 1 < 0) {
+                        Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
+                    } else {
+                        Console.WriteLine($"{player.Name}: I moved one place to the West");
+                        player.PositionX -= 1;
+                    }
+                    break;
+                default:
+                    Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
+                    break;
+            }
         }
     }
 }
