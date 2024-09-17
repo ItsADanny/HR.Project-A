@@ -7,6 +7,8 @@ public class Quest {
     public int LocationX;
     public int LocationY;
     public bool Completed;
+    public string Status;
+
 
     public Quest(int id, string name, string short_description, string long_description, string map_icon, int location_x, int location_y) {
         ID = id;
@@ -17,5 +19,8 @@ public class Quest {
         LocationX = location_x;
         LocationY = location_y;
         Completed = false;
+        Status = "Not started";
     }
+
+    //Voeg hier je code toe Thomas
 }

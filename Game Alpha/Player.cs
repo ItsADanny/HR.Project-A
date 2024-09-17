@@ -33,6 +33,24 @@ public class Player
         }
     }
 
+    public void HealthReduce(int damage)
+    {
+        Health = Math.Clamp(Health - damage, 0, 100);
+        //get player health
+        //if player encounters damage
+        //reduce health by damage amount
+    }
+
+    public void HealthIncrease(int healing)
+    {
+
+        Health = Math.Clamp(Health + healing, 0, 100);
+
+        //get player health 
+        //if item activated from inventory 
+        // increase health by given healing amount
+    }
+
     public void PrintMenu()
     {
         Console.WriteLine(" ");
@@ -44,6 +62,6 @@ public class Player
         Console.WriteLine($"   |      | Current quest    : {CurrentQuest.Name}");
         Console.WriteLine("   S      |");
         Console.WriteLine(" ");
-        Console.WriteLine("Movement options (N/E/S/W), Open Inventory (I), Switch Weapon (R)");
+        Console.WriteLine("Movement options (N/E/S/W), Open Inventory (I), Switch Weapon (R) Open Quests (Q)");
     }
 }

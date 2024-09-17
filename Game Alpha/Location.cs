@@ -41,11 +41,18 @@ public class Location {
     public void GenMap() {
         string fancyMapBorder = "O}=====--=----=---={ " + Name + " }=---=----=--====={O";
 
+        Console.WriteLine($"LocationSizeY: {LocationSizeY}");
+        Console.WriteLine($"LocationSizeX: {LocationSizeX}");
+        Console.WriteLine($"fancyMapBorder.Length: {fancyMapBorder.Length}");
+
         // Map border
         Console.WriteLine(fancyMapBorder);
 
         // Loop to generate the height of the map
         for (int y = 0; y == LocationSizeY || y == fancyMapBorder.Length; y++) {
+
+            Console.WriteLine($"y: {y}");
+
             string map_row = "";
 
             // Loop to generate the 
@@ -97,5 +104,13 @@ public class Location {
 
         // Map border
         Console.WriteLine(fancyMapBorder);
+    }
+
+    public void checkPlayerLocationForDamage() {
+        foreach (WorldStructure worldStructure in WorldStructures) {
+            if (worldStructure.LocationX == Player.PositionX & worldStructure.LocationY == Player.PositionY & worldStructure.HurtsPlayer) {
+                //Add damage function
+            }
+        }
     }
 }

@@ -80,6 +80,7 @@
 
         while (!game_won || !game_over) {
             current_location.GenMap();
+            current_location.checkPlayerLocationForDamage();
             player.PrintMenu();
             string str_movement_choice = Console.ReadLine().ToLower();
 
@@ -116,6 +117,8 @@
                         player.PositionX -= 1;
                     }
                     break;
+                case "q":
+
                 default:
                     Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     break;
