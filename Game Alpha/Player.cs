@@ -19,7 +19,7 @@ public class Player
         Armory = new List<Weapon>();
         HealingItems = new List<HealingItem>();
         CurrentWeapon = weapon;
-        CurrentQuest = new Quest(420, "No Quest", "", "", "", 0, 0);
+        CurrentQuest = new Quest(420, "No Quest", "", "", 0, 0);
         PositionX = 0;
         PositionY = 0;
     }
@@ -50,6 +50,20 @@ public class Player
         //if item activated from inventory 
         // increase health by given healing amount
     }
+
+    public void Attack(Monster monster)
+   {
+       if (CurrentWeapon != null)
+       {
+           int damage = 10; // Assuming Weapon class has a Damage property
+           monster.TakeDamage(damage);
+           Console.WriteLine($"{Name} attacks {monster.Name} with {CurrentWeapon.Name} for {damage} damage.");
+       }
+       else
+       {
+           Console.WriteLine($"{Name} has no weapon to attack with!");
+       }
+   }
 
     public void PrintMenu()
     {

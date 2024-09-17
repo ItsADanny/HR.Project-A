@@ -1,8 +1,7 @@
 public class Quest {
     public int ID;
     public string Name;
-    public string ShortDescription;
-    public string LongDescription;
+    public string Description;
     public string MapIcon;
     public int LocationX;
     public int LocationY;
@@ -10,11 +9,10 @@ public class Quest {
     public string Status;
 
 
-    public Quest(int id, string name, string short_description, string long_description, string map_icon, int location_x, int location_y) {
+    public Quest(int id, string name, string description, string map_icon, int location_x, int location_y) {
         ID = id;
         Name = name;
-        ShortDescription = short_description;
-        LongDescription = long_description;
+        Description = description;
         MapIcon = map_icon;
         LocationX = location_x;
         LocationY = location_y;
@@ -22,5 +20,30 @@ public class Quest {
         Status = "Not started";
     }
 
-    //Voeg hier je code toe Thomas
+    public void QuestDetails(){
+        Console.WriteLine ($"Quest: {Name}\nDescription: {Description}\nStatus: {Status}");
+    }
+
+    public void AskToStartQues(){
+        Console.WriteLine("You have encountered a quest!");
+        Console.WriteLine("Do you accept the quest? (yes/no)");
+        string answer = Console.ReadLine().ToLower();
+        if (answer == "yes"){
+            StartQuest();
+        }
+        else{
+            Console.WriteLine("Quest denied");
+        }
+    }
+
+    private void StartQuest(){
+        Console.WriteLine("You have accepted the quest!");
+        Status = "In progress";
+        QuestDetails();
+}
+
+    public void CompleteQuest(){
+        System.Console.WriteLine("You have completed the quest! ");
+        Status = "Completed";
+    }
 }

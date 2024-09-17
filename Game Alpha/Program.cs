@@ -56,9 +56,9 @@
 
         // Quests
         // ----------------------------------------------------------------------
-        Quest quest_1_cafeTroubles = new Quest(421, "", "", "", "", 5, 5);
-        Quest quest_2_swampySituation = new Quest(422, "", "", "", "", 7, 7);
-        Quest quest_3_TheOldCastle = new Quest(423, "", "", "", "", 9, 9);
+        Quest quest_1_cafeTroubles = new Quest(421, "cafeTrouble", "The family café is overrun by rats! Your task is to eliminate the infestation", "🍵", 5, 5);
+        Quest quest_2_swampySituation = new Quest(422, "swampySituation", "You need to reach the hut but it'protected by a radius covered with venomous snakes.", "🐍", 7, 7);
+        Quest quest_3_TheOldCastle = new Quest(423, "theOldCastle", " The name on the sword has lead you to the old castle where you need to break trough the spirits and spiders to climb the highest tower", "🏰", 9, 9);
 
         // Game player
         // ----------------------------------------------------------------------
@@ -85,7 +85,7 @@
             string str_movement_choice = Console.ReadLine().ToLower();
 
             switch (str_movement_choice) {
-                case "n":
+                case "s":
                     if (player.PositionY + 1 > current_location.LocationSizeY) {
                         Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     } else {
@@ -101,7 +101,7 @@
                         player.PositionX += 1;
                     }
                     break;
-                case "s":
+                case "n":
                     if (player.PositionY - 1 > current_location.LocationSizeY || player.PositionY - 1 < 0) {
                         Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     } else {

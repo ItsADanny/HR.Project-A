@@ -49,14 +49,11 @@ public class Location {
         Console.WriteLine(fancyMapBorder);
 
         // Loop to generate the height of the map
-        for (int y = 0; y == LocationSizeY || y == fancyMapBorder.Length; y++) {
-
-            Console.WriteLine($"y: {y}");
-
+        for (int y = 0; y < LocationSizeY; y++) {
             string map_row = "";
 
-            // Loop to generate the 
-            for (int x = 0; x == LocationSizeX || x == fancyMapBorder.Length; x++) {
+            // Loop to generate the map row
+            for (int x = 0; x < LocationSizeX | x < fancyMapBorder.Length; x++) {
                 bool somethingIsAlreadyOnThisLocation = false;
 
                 foreach (Quest quest in Quests) {
@@ -109,6 +106,14 @@ public class Location {
     public void checkPlayerLocationForDamage() {
         foreach (WorldStructure worldStructure in WorldStructures) {
             if (worldStructure.LocationX == Player.PositionX & worldStructure.LocationY == Player.PositionY & worldStructure.HurtsPlayer) {
+                //Add damage function
+            }
+        }
+    }
+
+    public void checkPlayerLocationForQuest() {
+        foreach (Quest quest in Quests) {
+            if (quest.LocationX == Player.PositionX & quest.LocationY == Player.PositionY) {
                 //Add damage function
             }
         }
