@@ -40,11 +40,6 @@ public class Location {
     // This function will generate the map that will be displayed to the user
     public void GenMap() {
         string fancyMapBorder = "O}=====--=----=---={ " + Name + " }=---=----=--====={O";
-
-        Console.WriteLine($"LocationSizeY: {LocationSizeY}");
-        Console.WriteLine($"LocationSizeX: {LocationSizeX}");
-        Console.WriteLine($"fancyMapBorder.Length: {fancyMapBorder.Length}");
-
         // Map border
         Console.WriteLine(fancyMapBorder);
 

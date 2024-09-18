@@ -67,10 +67,16 @@
 
         // Locations
         // ----------------------------------------------------------------------
-        Location overworld = new Location(531, "Overworld 🌏", "", 32, 32, player);
-        Location village1 = new Location(531,  "Old Town  🌆", "", 32, 32, player);
-        Location village2 = new Location(531,  "New Town  🏙️", "", 32, 32, player);
-        Location theSwamp = new Location(534,  "The Swamp 🎋", "", 32, 32, player);
+        Location overworld = new Location(531, "Overworld 🌏", "", 54, 32, player);
+        Location village1 = new Location(531,  "Old Town  🌆", "", 54, 32, player);
+        Location village2 = new Location(531,  "New Town  🏙️", "", 54, 32, player);
+        Location theSwamp = new Location(534,  "The Swamp 🎋", "", 54, 32, player);
+
+        //TEMP
+        //Set all the quests on the map
+        overworld.AddQuests(quest_1_cafeTroubles);
+        overworld.AddQuests(quest_2_swampySituation);
+        overworld.AddQuests(quest_3_TheOldCastle);
 
         // Game logic
         // ----------------------------------------------------------------------
@@ -82,10 +88,10 @@
             current_location.GenMap();
             current_location.checkPlayerLocationForDamage();
             player.PrintMenu();
-            string str_movement_choice = Console.ReadLine().ToLower();
+            var input = Console.ReadKey();
 
-            switch (str_movement_choice) {
-                case "s":
+            switch (input.Key) {
+                case ConsoleKey.S:
                     if (player.PositionY + 1 > current_location.LocationSizeY) {
                         Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     } else {
@@ -93,7 +99,7 @@
                         player.PositionY += 1;
                     }
                     break;
-                case "e":
+                case ConsoleKey.E:
                     if (player.PositionX + 1 > current_location.LocationSizeX) {
                         Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     } else {
@@ -101,7 +107,7 @@
                         player.PositionX += 1;
                     }
                     break;
-                case "n":
+                case ConsoleKey.N:
                     if (player.PositionY - 1 > current_location.LocationSizeY || player.PositionY - 1 < 0) {
                         Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     } else {
@@ -109,7 +115,7 @@
                         player.PositionY -= 1;
                     }
                     break;
-                case "w":
+                case ConsoleKey.W:
                     if (player.PositionX - 1 > current_location.LocationSizeX || player.PositionX - 1 < 0) {
                         Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     } else {
@@ -117,8 +123,12 @@
                         player.PositionX -= 1;
                     }
                     break;
-                case "q":
-
+                case ConsoleKey.Q:
+                    break;
+                case ConsoleKey.I:
+                    break;
+                case ConsoleKey.R:
+                    break;
                 default:
                     Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     break;
