@@ -67,10 +67,10 @@
 
         // Locations
         // ----------------------------------------------------------------------
-        Location overworld = new Location(531, "Overworld 🌏", "", 54, 32, player);
-        Location village1 = new Location(531,  "Old Town  🌆", "", 54, 32, player);
-        Location village2 = new Location(531,  "New Town  🏙️", "", 54, 32, player);
-        Location theSwamp = new Location(534,  "The Swamp 🎋", "", 54, 32, player);
+        Location overworld = new Location(531, "Overworld 🌏", "", 53, 32, player);
+        Location village1 = new Location(531,  "Old Town  🌆", "", 53, 32, player);
+        Location village2 = new Location(531,  "New Town  🏙️", "", 53, 32, player);
+        Location theSwamp = new Location(534,  "The Swamp 🎋", "", 53, 32, player);
 
         //TEMP
         //Set all the quests on the map
@@ -91,7 +91,7 @@
             var input = Console.ReadKey();
 
             switch (input.Key) {
-                case ConsoleKey.S:
+                case ConsoleKey.S: case ConsoleKey.DownArrow:
                     if (player.PositionY + 1 > current_location.LocationSizeY) {
                         Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     } else {
@@ -99,7 +99,7 @@
                         player.PositionY += 1;
                     }
                     break;
-                case ConsoleKey.E:
+                case ConsoleKey.E: case ConsoleKey.RightArrow:
                     if (player.PositionX + 1 > current_location.LocationSizeX) {
                         Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     } else {
@@ -107,7 +107,7 @@
                         player.PositionX += 1;
                     }
                     break;
-                case ConsoleKey.N:
+                case ConsoleKey.N: case ConsoleKey.UpArrow:
                     if (player.PositionY - 1 > current_location.LocationSizeY || player.PositionY - 1 < 0) {
                         Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     } else {
@@ -115,7 +115,7 @@
                         player.PositionY -= 1;
                     }
                     break;
-                case ConsoleKey.W:
+                case ConsoleKey.W: case ConsoleKey.LeftArrow:
                     if (player.PositionX - 1 > current_location.LocationSizeX || player.PositionX - 1 < 0) {
                         Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     } else {

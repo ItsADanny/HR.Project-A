@@ -24,11 +24,59 @@ public class Player
         PositionY = 0;
     }
 
+    public void AddItem(Item item) {
+        Inventory.Add(item);
+    }
+
+    public void AddItem(List<Item> item) {
+        Inventory.AddRange(item);
+    }
+
+    public void AddWeapon(Weapon weapon) {
+        Armory.Add(weapon);
+    }
+
+    public void AddWeapon(List<Weapon> weapon) {
+        Armory.AddRange(weapon);
+    }
+
+    public void AddHealingItem(HealingItem healingItem) {
+        HealingItems.Add(healingItem);
+    }
+
+    public void AddHealingItem(List<HealingItem> healingItem) {
+        HealingItems.AddRange(healingItem);
+    }
+
     public void RemoveItem(int int_itemID) {
-        List<Item> Eddited_Inventory = new List<Item>();
+        bool ItemRemoved = false;
+        List<Item> Edited_Inventory = new List<Item>();
         foreach (Item item in Inventory) {
             if (item.ID != int_itemID) {
-                Eddited_Inventory.Add(item);
+                Edited_Inventory.Add(item);
+            } else {
+                if (ItemRemoved) {
+                    Edited_Inventory.Add(item);
+                } else {
+                    ItemRemoved = true;
+                }
+            }
+        }
+        Inventory = Edited_Inventory;
+    }
+
+    public void RemoveHealingItem(string str_HealingItemName) {
+        List<HealingItem> Edited_HealingItemInventory = new List<HealingItem>();
+        bool ItemRemoved = false;
+        foreach (HealingItem healingItem in HealingItems) {
+            if (healingItem.Name != str_HealingItemName) {
+                Edited_HealingItemInventory.Add(healingItem);
+            } else {
+                if (ItemRemoved) {
+                    Edited_HealingItemInventory.Add(healingItem);
+                } else {
+                    ItemRemoved = true;
+                }
             }
         }
     }
@@ -76,6 +124,6 @@ public class Player
         Console.WriteLine($"   |      | Current quest    : {CurrentQuest.Name}");
         Console.WriteLine("   S      |");
         Console.WriteLine(" ");
-        Console.WriteLine("Movement options (N/E/S/W), Open Inventory (I), Switch Weapon (R) Open Quests (Q)");
+        Console.WriteLine("Movement options (N/E/S/W) (↑, →, ↓, ←),\nOpen Inventory (I), Switch Weapon (R) Open Quests (Q)");
     }
 }
