@@ -1,49 +1,54 @@
 public class Fight
-    {
-        public static void StartFight(Player player, Monster monster)
-        {
-            Console.WriteLine($"A wild {monster.Name} has appeared!");
+{
+    private Player player;
+    private Monster monster;
+    private bool inCombat;
 
-            // Ask the player if they want to fight or run away
-            Console.WriteLine("Do you want to fight or run away? (Type 'fight' or 'run')");
-            string choice = Console.ReadLine().ToLower();
+    public Fight(Player player, Monster monster) {
+        this.player = player;
+        this.monster = monster;
+        this.inCombat = true;
+    }
 
-            if (choice == "run")
-            {
-                Console.WriteLine("You have run away from the fight!");
-                return; // Exit the fight method
+    public void StartFight() {
+        Console.WriteLine($"{player.Name} encounters {monster.Name}!");
+
+        while (inCombat && player.IsAlive() && monster.IsAlive()) {
+            Console.WriteLine("Choose an action: Fight (F), Run (R), Cancel (C):");
+            string action = Console.ReadLine().ToLower();
+
+            switch (action) {
+                case "f":
+                    player.Attack(monster);
+
+                    if (monster.IsAlive()) {
+                        // monster.Attack(player);
+                    } else {
+                        Console.WriteLine($"{monster.Name} is defeated! Quest complete.");
+                        inCombat = false;
+                    }
+
+                    break;
+
+                case "r":
+                    Console.WriteLine($"{player.Name} runs away from {monster.Name}. Quest failed.");
+                    inCombat = false;
+                    break;
+
+                case "c":
+                    Console.WriteLine($"{player.Name} cancels the fight. Quest canceled.");
+                    inCombat = false;
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid action! Please choose 'F', 'R', or 'C'.");
+                    break;
             }
-            else if (choice != "fight")
-            {
-                Console.WriteLine("Invalid choice. You are forced to fight.");
-            }
-
-            // Proceed with the fight
-            FightPlayerAgainstMonster(player, monster);
-        }
-
-        private static void FightPlayerAgainstMonster(Player player, Monster monster)
-        {
-            while (player.Health > 0 && monster.IsAlive())
-            {
-                player.Attack(monster);
-                if (monster.IsAlive())
-                {
-                    int damage = monster.GenAttackDamage();
-                    player.HealthReduce(damage);
-                    Console.WriteLine($"{monster.Name} attacks {player.Name} for {damage} damage.");
-                }
-
-                Console.WriteLine($"Player Health: {player.Health}, Monster Health: {monster.Health}");
-            }
-
-            if (player.Health <= 0)
-            {
-                Console.WriteLine("You have been defeated.");
-            }
-            else if (!monster.IsAlive())
-            {
-                Console.WriteLine($"You have defeated the {monster.Name}!");
+            
+            if (!player.IsAlive()) {
+                Console.WriteLine($"{player.Name} has been defeated by {monster.Name}. Game over.");
+                inCombat = false;
             }
         }
     }
+}

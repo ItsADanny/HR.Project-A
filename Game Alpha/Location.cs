@@ -98,18 +98,23 @@ public class Location {
         Console.WriteLine(fancyMapBorder);
     }
 
-    public void checkPlayerLocationForDamage() {
-        foreach (WorldStructure worldStructure in WorldStructures) {
-            if (worldStructure.LocationX == Player.PositionX & worldStructure.LocationY == Player.PositionY & worldStructure.HurtsPlayer) {
-                //Add damage function
-            }
-        }
-    }
-
-    public void checkPlayerLocationForQuest() {
+    public void LocationCheck() {
         foreach (Quest quest in Quests) {
             if (quest.LocationX == Player.PositionX & quest.LocationY == Player.PositionY) {
-                //Add damage function
+                
+            }
+        }
+
+        foreach (Monster monster in Monsters) {
+            if (monster.LocationX == Player.PositionX & monster.LocationY == Player.PositionY) {
+                Fight fight = new Fight(Player, monster);
+                fight.StartFight();
+            }
+        }
+
+        foreach (WorldStructure worldStructure in WorldStructures) {
+            if (worldStructure.LocationX == Player.PositionX & worldStructure.LocationY == Player.PositionY) {
+                
             }
         }
     }

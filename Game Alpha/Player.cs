@@ -99,6 +99,13 @@ public class Player
         // increase health by given healing amount
     }
 
+    public bool IsAlive() {
+        if (Health > 0) {
+            return true;
+        }
+        return false;
+    }
+
     public void Attack(Monster monster)
    {
        if (CurrentWeapon != null)

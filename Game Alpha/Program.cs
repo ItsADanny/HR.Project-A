@@ -1,4 +1,6 @@
-﻿static class Program {
+﻿using System.Diagnostics;
+
+static class Program {
     static void Main() {
         // ID structure
         // ----------------------------------------------------------------------
@@ -81,12 +83,71 @@
         // Game logic
         // ----------------------------------------------------------------------
         Location current_location = overworld;
+        bool start_game = false;
         bool game_won = false;
         bool game_over = false;
 
+        //Show start screen
+        Functions.StartScreen();
+
+        while (!start_game) {
+            Functions.StartMenu();
+            switch (Console.ReadLine().ToLower())
+            {
+                case "s":
+                    start_game = true;
+                    break;
+                case "o":
+                    Functions.OptionScreen();
+                    bool choice_made = false;
+                    while (!choice_made) {
+                        int choice = int.Parse(Console.ReadLine());
+                        switch (choice) {
+                            case 1 :
+                                // Choice - Magician
+                                player.MapIcon = "\ud83e\uddd9";
+                                choice_made = true;
+                                break;
+                            case 2 :
+                                // Choice - Ghost
+                                player.MapIcon = "\ud83e\udddd";
+                                choice_made = true;
+                                break;
+                            case 3 :
+                                // Choice - Assassin
+                                player.MapIcon = "\ud83e\udddd";
+                                choice_made = true;
+                                break;
+                            case 4 :
+                                // Choice - Royal
+                                player.MapIcon = "\ud83e\udddd";
+                                choice_made = true;
+                                break;
+                            case 5 :
+                                // Choice - Fairy
+                                player.MapIcon = "\ud83e\udddd";
+                                choice_made = true;
+                                break;
+                            case 6 :
+                                // Choice - Elf
+                                player.MapIcon = "\ud83e\udddd";
+                                choice_made = true;
+                                break;
+                        }
+                    }
+                    break;
+                case "c":
+                    Functions.CreditScreen();
+                    break;
+                case "q":
+                    Environment.Exit(0);
+                    break;
+            }
+        }
+
         while (!game_won || !game_over) {
+            current_location.LocationCheck();
             current_location.GenMap();
-            current_location.checkPlayerLocationForDamage();
             player.PrintMenu();
             var input = Console.ReadKey();
 
