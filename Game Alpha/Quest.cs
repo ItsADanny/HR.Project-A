@@ -9,6 +9,7 @@ public class Quest {
     public string Status;
     public Weapon RewardWeapon;
     public Player GamePlayer;
+    public List<Monster> monsters;
 
 
     public Quest(int id, string name, string description, string map_icon, int location_x, int location_y, Weapon rewardweapon, Player gameplayer) {
@@ -22,10 +23,11 @@ public class Quest {
         Status = "Not started";
         RewardWeapon = rewardweapon;
         GamePlayer = gameplayer;
+        monsters = new List<Monster>();
     }
 
   public void QuestDetails(){
-    Console.WriteLine ($"Quest: {Name}\nDescription: {Description}\nStatus: {Status}");
+    Console.WriteLine ($"\nQuest: {Name}\nDescription: {Description}\nStatus: {Status}");
     }
     public void AskToStartQues(){
     Console.WriteLine("You have encountered a quest!");
@@ -51,4 +53,23 @@ public void CompleteQuest(){
     GamePlayer.AddWeapon(RewardWeapon);
         
     }
+
+    public void AddMonster(Monster monster) {
+        monsters.Add(monster);
+    }
+
+    public void QuestCompleteCheck() {
+        int AreThereStillMonsters = 0;
+        foreach (Monster monster in monsters) {
+            if (monster.IsAlive()) {
+                AreThereStillMonsters++;
+            }
+        }
+
+        if (AreThereStillMonsters == 0) {
+            //Add code to complete the quest
+        }
+    }
 }
+
+

@@ -14,6 +14,11 @@ public class Fight
         Console.WriteLine($"{player.Name} encounters {monster.Name}!");
 
         while (inCombat && player.IsAlive() && monster.IsAlive()) {
+            Console.Clear();
+            Console.WriteLine("Player health: " + player.Health);
+            Console.WriteLine($"{monster.MapIcon} {monster.Name} Health : {monster.Health}");
+            Console.WriteLine("");
+            Console.WriteLine("======================================================");
             Console.WriteLine("Choose an action: Fight (F), Run (R), Cancel (C):");
             string action = Console.ReadLine().ToLower();
 
@@ -22,12 +27,12 @@ public class Fight
                     player.Attack(monster);
 
                     if (monster.IsAlive()) {
-                        monster.Attack(player);
+                        int damage = monster.Attack(player);
+                        Console.WriteLine($"{player.Name} has taken {damage} damage from {monster.Name}");
                     } else {
-                        Console.WriteLine($"{monster.Name} is defeated! Quest complete.");
+                        Console.WriteLine($"{monster.Name} is defeated!");
                         inCombat = false;
                     }
-
                     break;
 
                 case "r":
@@ -49,6 +54,8 @@ public class Fight
                 Console.WriteLine($"{player.Name} has been defeated by {monster.Name}. Game over.");
                 inCombat = false;
             }
+
+            Thread.Sleep (2000);
         }
     }
 }

@@ -10,7 +10,7 @@ public class Monster
     public int LocationX;
     public int LocationY;
     
-    public Monster(int id, string name, string description, string map_icon, int health, int damage_range_min, int damage_range_max)
+    public Monster(int id, string name, string description, string map_icon, int health, int damage_range_min, int damage_range_max, int locationX, int locationY)
     {
         ID = id;
         Name = name;
@@ -20,8 +20,8 @@ public class Monster
         DamageRangeMin = damage_range_min;
         DamageRangeMax = damage_range_max;
         //By default monsters will not get a location. This will need to be defined with the method DefineLocation()
-        LocationX = 0;
-        LocationY = 0;
+        LocationX = locationX;
+        LocationY = locationY;
     }
 
     public int GenAttackDamage() {
@@ -29,8 +29,10 @@ public class Monster
         return rnd.Next(DamageRangeMin, (DamageRangeMax + 1));
     }
 
-    public void Attack(Player player) {
-        player.Health -= GenAttackDamage();
+    public int Attack(Player player) {
+        int damage = GenAttackDamage();
+        player.Health -= damage;
+        return damage;
     }
 
     public void TakeDamage(int damage) {
@@ -46,11 +48,7 @@ public class Monster
             return true;
         }
         return false;
-    }
 
-    public void DefineLocation(int location_x, int location_y) {
-        LocationX = location_x;
-        LocationY = location_y;
+        
     }
-
 }

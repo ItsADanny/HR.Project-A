@@ -126,13 +126,13 @@ public class Player
         Console.WriteLine(" ");
         Console.WriteLine($" Compass  | Player: {Name}");
         Console.WriteLine("==========|===========================================");
-        Console.WriteLine($"   N      | Health           : {Health}");
-        Console.WriteLine($"   |      | Current weapon   : {CurrentWeapon.Name}");
-        Console.WriteLine($"W--0--E   | Current position : X: {PositionX} Y: {PositionY}");
-        Console.WriteLine($"   |      | Current quest    : {CurrentQuest.Name}");
-        Console.WriteLine("   S      |");
+        Console.WriteLine($"   \x1b[36mN\x1b[37m      | Health           : \x1b[32m{Health}\x1b[37m");
+        Console.WriteLine($"   |      | Current weapon   : \x1b[91m{CurrentWeapon.Name}\x1b[37m");
+        Console.WriteLine($"\x1b[36mW\x1b[37m--0--\x1b[36mE\x1b[37m   | Current position : X: \x1b[94m{PositionX}\x1b[37m Y: \x1b[94m{PositionY}\x1b[37m");
+        Console.WriteLine($"   |      | Current quest    : \x1b[93m{CurrentQuest.Name}\x1b[37m");
+        Console.WriteLine("   \x1b[36mS\x1b[37m      |");
         Console.WriteLine(" ");
-        Console.WriteLine("Movement options (N/E/S/W) (↑, →, ↓, ←),\nOpen Inventory (I), Switch Weapon (R) Open Quests (Q)");
+        Console.WriteLine("Movement options (\x1b[94mN\x1b[37m/\x1b[94mE\x1b[37m/\x1b[94mS\x1b[37m/\x1b[94mW\x1b[37m) (\x1b[94m↑\x1b[37m, \x1b[94m→\x1b[37m, \x1b[94m↓\x1b[37m, \x1b[94m←\x1b[37m),\nOpen Inventory (\x1b[94mI\x1b[37m), Switch Weapon (\x1b[94mR\x1b[37m) Open Quests (\x1b[94mQ\x1b[37m)");
     }
 
     public void SwitchWeaponMenu() {

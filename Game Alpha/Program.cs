@@ -76,11 +76,40 @@ static class Program {
         // The player always starts with 100% health
         Player player = new Player("The Hero", "⛄︎", weapon_rustySword);
 
+        // Monsters
+        // ----------------------------------------------------------------------
+        Monster monster_rat1 = new Monster(101, "Rat", "rat, sharp claws, eyes burning with hunger.","🐀", 25, 1, 10, 5, 2);
+        Monster monster_rat2 = new Monster(102, "Rat", "rat, sharp claws, eyes burning with hunger.","🐀", 25, 1, 10, 3, 12);
+        Monster monster_rat3 = new Monster(103, "Rat", "rat, sharp claws, eyes burning with hunger.","🐀", 30, 1, 10, 10, 3);
+        
+        Monster monster_spider1 = new Monster(104, "Spider", "Spider, fangs dripping with poison.","🕷️", 50, 5, 25, 4, 10);
+        Monster monster_spider2 = new Monster(105, "Spider", "Spider, fangs dripping with poison.","🕷️", 50, 5, 25, 23, 30);
+        Monster monster_spider3 = new Monster(106, "Spider", "Spider, fangs dripping with poison.","🕷️", 75, 5, 25, 15, 2);     
+
+        Monster monster_snake1 = new Monster(107,"Snake", "Snake, strikes with lethal precision.", "🐍", 100, 15, 40, 8, 22);
+        Monster monster_snake2 = new Monster(108,"Snake", "Snake, strikes with lethal precision.", "🐍", 110, 15, 40, 2, 15);
+        Monster monster_snake3 = new Monster(109,"Snake", "Snake, strikes with lethal precision.", "🐍", 130, 15, 40, 19, 3);
+
         // Quests
         // ----------------------------------------------------------------------
         Quest quest_1_cafeTroubles = new Quest(421, "cafeTrouble", "The family café is overrun by rats! Your task is to eliminate the infestation", "🍵", 5, 5,weapon_familyHeirloomSword, player);
         Quest quest_2_swampySituation = new Quest(422, "swampySituation", "You need to reach the hut but it'protected by a radius covered with venomous snakes.", "🐍", 7, 7, weapon_doubleFuckSword, player);
         Quest quest_3_TheOldCastle = new Quest(423, "theOldCastle", " The name on the sword has lead you to the old castle where you need to break trough the spirits and spiders to climb the highest tower", "🏰", 9, 9,weapon_swordOfSheez, player);
+        Quest quest_end_TheTownSquare = new Quest(424, "theChosenOne", "You have defeated all the danger, set your battle in stone", "", 11, 11, null, player);
+
+        //Add the monsters to the Quest
+        //Cafe troubles
+        quest_1_cafeTroubles.AddMonster(monster_rat1);
+        quest_1_cafeTroubles.AddMonster(monster_rat2);
+        quest_1_cafeTroubles.AddMonster(monster_rat3);
+        //Swampy Situation
+        quest_2_swampySituation.AddMonster(monster_snake1);
+        quest_2_swampySituation.AddMonster(monster_snake2);
+        quest_2_swampySituation.AddMonster(monster_snake3);
+        //The Old Castle
+        quest_3_TheOldCastle.AddMonster(monster_spider1);
+        quest_3_TheOldCastle.AddMonster(monster_spider2);
+        quest_3_TheOldCastle.AddMonster(monster_spider3);
 
         // Locations
         // ----------------------------------------------------------------------
@@ -91,9 +120,23 @@ static class Program {
 
         //TEMP
         //Set all the quests on the map
-        overworld.AddQuest(quest_1_cafeTroubles);
-        overworld.AddQuest(quest_2_swampySituation);
-        overworld.AddQuest(quest_3_TheOldCastle);
+        Town.AddQuest(quest_1_cafeTroubles);
+        theSwamp.AddQuest(quest_2_swampySituation);
+        Town.AddQuest(quest_3_TheOldCastle);
+
+        //Add all the monster to the map
+        //Town
+        Town.AddMonster(monster_rat1);
+        Town.AddMonster(monster_rat2);
+        Town.AddMonster(monster_rat3);
+        //The Swamp
+        theSwamp.AddMonster(monster_snake1);
+        theSwamp.AddMonster(monster_snake2);
+        theSwamp.AddMonster(monster_snake3);
+        //The Old Castle/The Dark Below
+        DarkBelow.AddMonster(monster_spider1);
+        DarkBelow.AddMonster(monster_spider2);
+        DarkBelow.AddMonster(monster_spider3);
 
         //Add Location doors to the map
         //Overworld
@@ -132,6 +175,7 @@ static class Program {
         bool game_over = false;
 
         //Show start screen
+        Console.Clear();
         Functions.StartScreen();
         Console.Clear();
         while (!start_game) {
@@ -195,6 +239,7 @@ static class Program {
 
         while (!game_won || !game_over) {
             Console.Clear();
+            CheckEnding();
             current_location.LocationCheck();
             current_location.GenMap();
             player.PrintMenu();
@@ -242,6 +287,8 @@ static class Program {
                     }
                     break;
                 case ConsoleKey.Q:
+                    player.CurrentQuest.QuestDetails();
+                    Thread.Sleep (2000);
                     break;
                 case ConsoleKey.I:
                     break;
@@ -272,6 +319,24 @@ static class Program {
                 } else {
                     player.PositionX = current_location.SavedPlayerLocationX;
                     player.PositionY = current_location.SavedPlayerLocationY;
+                }
+            }
+        }
+
+        void CheckEnding() {
+            // add a part that yeets you to the townsquare location to do the swordy and end the game
+            // if all three stages of end boss is done 
+
+            //endboss gives weapon if weapon in list inventory start end quest 
+            // how i gotta do that 
+            // if Weapon in list weapon start endquest 
+            // 
+            string WeaponCheck = "Sword of Sheez";
+
+
+            foreach (Weapon weapon in player.Armory) {
+                if (weapon.ID == 214) {
+                    player.CurrentQuest = quest_end_TheTownSquare;
                 }
             }
         }
