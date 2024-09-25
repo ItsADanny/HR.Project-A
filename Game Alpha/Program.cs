@@ -1,6 +1,21 @@
-﻿using System.Diagnostics;
+﻿using System.Security.Cryptography.X509Certificates;
 
 static class Program {
+    static Dictionary<bool, Location> DoorToNextLocationCheck(Location currentLocation, Player player) {
+        Dictionary<bool, Location> returnValue = new Dictionary<bool, Location>();
+        foreach (WorldStructure worldStructure in currentLocation.WorldStructures) {
+            if (worldStructure.LocationX == player.PositionX & worldStructure.LocationY == player.PositionY) {
+                if (worldStructure.IsDoorToNextLocation) {
+                    bool wantsToEnter = worldStructure.AskForNextLocation(player);
+                    returnValue.Add(wantsToEnter, worldStructure.NextLocation);
+                    return returnValue;
+                }
+            }
+        }
+        returnValue.Add(false, null);
+        return returnValue;
+    }
+
     static void Main() {
         // ID structure
         // ----------------------------------------------------------------------
@@ -56,29 +71,58 @@ static class Program {
         // ----------------------------------------------------------------------
         Item item_blankKey = new Item(101, "Blank key", "A blank key with which can be turned into a functioning key", "🗝️", "Unfinished key");
 
-        // Quests
-        // ----------------------------------------------------------------------
-        Quest quest_1_cafeTroubles = new Quest(421, "cafeTrouble", "The family café is overrun by rats! Your task is to eliminate the infestation", "🍵", 5, 5);
-        Quest quest_2_swampySituation = new Quest(422, "swampySituation", "You need to reach the hut but it'protected by a radius covered with venomous snakes.", "🐍", 7, 7);
-        Quest quest_3_TheOldCastle = new Quest(423, "theOldCastle", " The name on the sword has lead you to the old castle where you need to break trough the spirits and spiders to climb the highest tower", "🏰", 9, 9);
-
         // Game player
         // ----------------------------------------------------------------------
         // The player always starts with 100% health
         Player player = new Player("The Hero", "⛄︎", weapon_rustySword);
 
+        // Quests
+        // ----------------------------------------------------------------------
+        Quest quest_1_cafeTroubles = new Quest(421, "cafeTrouble", "The family café is overrun by rats! Your task is to eliminate the infestation", "🍵", 5, 5,weapon_familyHeirloomSword, player);
+        Quest quest_2_swampySituation = new Quest(422, "swampySituation", "You need to reach the hut but it'protected by a radius covered with venomous snakes.", "🐍", 7, 7, weapon_doubleFuckSword, player);
+        Quest quest_3_TheOldCastle = new Quest(423, "theOldCastle", " The name on the sword has lead you to the old castle where you need to break trough the spirits and spiders to climb the highest tower", "🏰", 9, 9,weapon_swordOfSheez, player);
+
         // Locations
         // ----------------------------------------------------------------------
-        Location overworld = new Location(531, "Overworld 🌏", "", 53, 32, player);
-        Location village1 = new Location(531,  "Old Town  🌆", "", 53, 32, player);
-        Location village2 = new Location(531,  "New Town  🏙️", "", 53, 32, player);
-        Location theSwamp = new Location(534,  "The Swamp 🎋", "", 53, 32, player);
+        Location overworld = new Location(531, "Overworld   🌏", "", 55, 32, player);
+        Location Town = new Location(531, "Town        🌆", "", 55, 32, player);
+        Location DarkBelow = new Location(531,  "Dark below  🏯", "", 55, 32, player);
+        Location theSwamp = new Location(534,  "The Swamp   🎋", "", 55, 32, player);
 
         //TEMP
         //Set all the quests on the map
-        overworld.AddQuests(quest_1_cafeTroubles);
-        overworld.AddQuests(quest_2_swampySituation);
-        overworld.AddQuests(quest_3_TheOldCastle);
+        overworld.AddQuest(quest_1_cafeTroubles);
+        overworld.AddQuest(quest_2_swampySituation);
+        overworld.AddQuest(quest_3_TheOldCastle);
+
+        //Add Location doors to the map
+        //Overworld
+        WorldStructure doorToTown_overworld = new WorldStructure(641, "Town", "🌆", true, false, 0, true, Town, 28, 30);
+        doorToTown_overworld.defineLocation(25, 7);
+        overworld.AddWorldStructure(doorToTown_overworld);
+
+        WorldStructure doorToDarkBelow_overworld = new WorldStructure(642, "Dark Below", "🏯", true, false, 0, true, DarkBelow, 28, 30);
+        doorToDarkBelow_overworld.defineLocation(28, 31);
+        overworld.AddWorldStructure(doorToDarkBelow_overworld);
+
+        WorldStructure doorToTheSwamp_overworld = new WorldStructure(643, "The Swamp", "🎋", true, false, 0, true, theSwamp, 28, 30);
+        doorToTheSwamp_overworld.defineLocation(7, 25);
+        overworld.AddWorldStructure(doorToTheSwamp_overworld);
+
+        //Town
+        WorldStructure doorToOverworld_town = new WorldStructure(644, "Overworld", "🌏", true, false, 0, true, overworld, 28, 30);
+        doorToOverworld_town.defineLocation(28, 31);
+        Town.AddWorldStructure(doorToOverworld_town);
+
+        //Dark below
+        WorldStructure doorToOverworld_darkBelow = new WorldStructure(645, "Overworld", "🌏", true, false, 0, true, overworld, 28, 30);
+        doorToOverworld_darkBelow.defineLocation(28, 31);
+        DarkBelow.AddWorldStructure(doorToOverworld_darkBelow);
+
+        //The Swamp
+        WorldStructure doorToOverworld_TheSwamp = new WorldStructure(646, "Overworld", "🌏", true, false, 0, true, overworld, 28, 30);
+        doorToOverworld_TheSwamp.defineLocation(28, 31);
+        theSwamp.AddWorldStructure(doorToOverworld_TheSwamp);
 
         // Game logic
         // ----------------------------------------------------------------------
@@ -89,15 +133,17 @@ static class Program {
 
         //Show start screen
         Functions.StartScreen();
-
+        Console.Clear();
         while (!start_game) {
             Functions.StartMenu();
             switch (Console.ReadLine().ToLower())
             {
                 case "s":
+                    Console.Clear();
                     start_game = true;
                     break;
                 case "o":
+                    Console.Clear();
                     Functions.OptionScreen();
                     bool choice_made = false;
                     while (!choice_made) {
@@ -135,9 +181,11 @@ static class Program {
                                 break;
                         }
                     }
+                    Console.Clear();
                     break;
                 case "c":
                     Functions.CreditScreen();
+                    Console.Clear();
                     break;
                 case "q":
                     Environment.Exit(0);
@@ -146,6 +194,7 @@ static class Program {
         }
 
         while (!game_won || !game_over) {
+            Console.Clear();
             current_location.LocationCheck();
             current_location.GenMap();
             player.PrintMenu();
@@ -158,6 +207,8 @@ static class Program {
                     } else {
                         Console.WriteLine($"{player.Name}: I moved one place to the North");
                         player.PositionY += 1;
+                        current_location.LocationCheck();
+                        checkForNewLocation();
                     }
                     break;
                 case ConsoleKey.E: case ConsoleKey.RightArrow:
@@ -166,6 +217,8 @@ static class Program {
                     } else {
                         Console.WriteLine($"{player.Name}: I moved one place to the East");
                         player.PositionX += 1;
+                        current_location.LocationCheck();
+                        checkForNewLocation();
                     }
                     break;
                 case ConsoleKey.N: case ConsoleKey.UpArrow:
@@ -174,6 +227,8 @@ static class Program {
                     } else {
                         Console.WriteLine($"{player.Name}: I moved one place to the South");
                         player.PositionY -= 1;
+                        current_location.LocationCheck();
+                        checkForNewLocation();
                     }
                     break;
                 case ConsoleKey.W: case ConsoleKey.LeftArrow:
@@ -182,6 +237,8 @@ static class Program {
                     } else {
                         Console.WriteLine($"{player.Name}: I moved one place to the West");
                         player.PositionX -= 1;
+                        current_location.LocationCheck();
+                        checkForNewLocation();
                     }
                     break;
                 case ConsoleKey.Q:
@@ -189,10 +246,33 @@ static class Program {
                 case ConsoleKey.I:
                     break;
                 case ConsoleKey.R:
+                    player.SwitchWeaponMenu();
                     break;
                 default:
                     Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
                     break;
+            }
+        }
+
+        void checkForNewLocation() {
+            Dictionary<bool, Location> response = DoorToNextLocationCheck(current_location, player);
+            if (response.ContainsKey(true)) {
+                current_location.SavedPlayerLocationX = player.PositionX;
+                current_location.SavedPlayerLocationY = player.PositionY;
+                WorldStructure current_worldStructure;
+                foreach (WorldStructure worldStructure in current_location.WorldStructures) {
+                    if (worldStructure.LocationX == player.PositionX & worldStructure.LocationY == player.PositionY) {
+                        current_worldStructure = worldStructure;
+                    }
+                }
+                current_location = response[true];
+                if (current_location.SavedPlayerLocationX == 0 & current_location.SavedPlayerLocationY == 0) {
+                    player.PositionX = WorldStructure.PlayerStartPositionX;
+                    player.PositionY = WorldStructure.PlayerStartPositionY;
+                } else {
+                    player.PositionX = current_location.SavedPlayerLocationX;
+                    player.PositionY = current_location.SavedPlayerLocationY;
+                }
             }
         }
     }

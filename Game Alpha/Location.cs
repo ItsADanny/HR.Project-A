@@ -8,6 +8,8 @@ public class Location {
     public List<Monster> Monsters;
     public List<WorldStructure> WorldStructures;
     public Player Player;
+    public int SavedPlayerLocationX = 0;
+    public int SavedPlayerLocationY = 0;
     
     public Location(int id, string name, string description, int location_size_x, int location_size_y, Player player) {
         ID = id;
@@ -21,9 +23,9 @@ public class Location {
         Player = player;
     }
 
-    public void AddQuests(Quest quest) => Quests.Add(quest);
+    public void AddQuest(Quest quest) => Quests.Add(quest);
 
-    public void AddQuests(List<Quest> quests) {
+    public void AddQuest(List<Quest> quests) {
         foreach (Quest quest in quests) {
             Quests.Add(quest);
         }
@@ -31,9 +33,17 @@ public class Location {
 
     public void AddMonster(Monster monster) => Monsters.Add(monster);
 
-    public void AddMonsters(List<Monster> monsters) {
+    public void AddMonster(List<Monster> monsters) {
         foreach (Monster monster in monsters) {
             Monsters.Add(monster);
+        }
+    }
+
+    public void AddWorldStructure(WorldStructure worldStructure) => WorldStructures.Add(worldStructure);
+
+    public void AddWorldStructure(List<WorldStructure> worldStructures) {
+        foreach (WorldStructure worldStructure in worldStructures) {
+            WorldStructures.Add(worldStructure);
         }
     }
 
@@ -109,12 +119,6 @@ public class Location {
             if (monster.LocationX == Player.PositionX & monster.LocationY == Player.PositionY) {
                 Fight fight = new Fight(Player, monster);
                 fight.StartFight();
-            }
-        }
-
-        foreach (WorldStructure worldStructure in WorldStructures) {
-            if (worldStructure.LocationX == Player.PositionX & worldStructure.LocationY == Player.PositionY) {
-                
             }
         }
     }

@@ -17,9 +17,10 @@ public class Player
         Health = 100;
         Inventory = new List<Item>();
         Armory = new List<Weapon>();
+        Armory.Add(weapon);
         HealingItems = new List<HealingItem>();
         CurrentWeapon = weapon;
-        CurrentQuest = new Quest(420, "No Quest", "", "", 0, 0);
+        CurrentQuest = new Quest(420, "No quest", "", "", 0, 0, null,null );
         PositionX = 0;
         PositionY = 0;
     }
@@ -110,7 +111,7 @@ public class Player
    {
        if (CurrentWeapon != null)
        {
-           int damage = 10; // Assuming Weapon class has a Damage property
+           int damage = CurrentWeapon.GenAttackDamage();
            monster.TakeDamage(damage);
            Console.WriteLine($"{Name} attacks {monster.Name} with {CurrentWeapon.Name} for {damage} damage.");
        }
@@ -133,4 +134,51 @@ public class Player
         Console.WriteLine(" ");
         Console.WriteLine("Movement options (N/E/S/W) (↑, →, ↓, ←),\nOpen Inventory (I), Switch Weapon (R) Open Quests (Q)");
     }
+
+    public void SwitchWeaponMenu() {
+        Console.Clear();
+        Dictionary<int, Weapon> dict_armory = new Dictionary<int, Weapon>();
+        int i = 1;
+        foreach (Weapon weapon in Armory) {
+            Console.WriteLine($"{i} {weapon.Name} - 🗡️  Damage: ({weapon.DamageRangeMin} - {weapon.DamageRangeMax})");
+            dict_armory.Add(i, weapon);
+            i++;
+        }
+        Console.WriteLine("\n");
+        Console.WriteLine("======================================================");
+        Console.WriteLine("Options: switch to weapon (number), Quit (Q)");
+        bool valid_awnser = false;
+        while (!valid_awnser) {
+            string str_choice = Console.ReadLine();
+            bool isInt = false;
+            int int_choice;
+            try {
+                int_choice = Convert.ToInt32(str_choice);
+                isInt = true;
+            } catch {
+                int_choice = 0;
+            }
+
+            if (isInt) {
+                Console.WriteLine($"Current weapon has been changed to {dict_armory[int_choice].Name}");
+                CurrentWeapon = dict_armory[int_choice];
+                Thread.Sleep (1000);
+                valid_awnser = true;
+            } else if (str_choice.ToLower() == "q") {
+                valid_awnser = true;
+            } else {
+                Console.WriteLine($"{Name} : Oh no i don't give a valid awnser, i am going to try that again");
+            }
+        }
+    }
+
+    //ItsDanny - This is still being worked on, and will be updated soon
+    // public void Inventroy() {
+    //     Console.Clear();
+    //     Dictionary<int, Dictionary<int, string>> dict_inventory = new Dictionary<int, Dictionary<int, string>>();
+    //     int i = 1;
+    //     foreach (Item item in Inventory) {
+    //         foreach (Dictionary<int, string> dict)
+    //     }
+    // }
 }

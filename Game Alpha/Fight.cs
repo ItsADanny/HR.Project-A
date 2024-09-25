@@ -22,7 +22,7 @@ public class Fight
                     player.Attack(monster);
 
                     if (monster.IsAlive()) {
-                        // monster.Attack(player);
+                        monster.Attack(player);
                     } else {
                         Console.WriteLine($"{monster.Name} is defeated! Quest complete.");
                         inCombat = false;

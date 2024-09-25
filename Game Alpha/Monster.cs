@@ -29,6 +29,10 @@ public class Monster
         return rnd.Next(DamageRangeMin, (DamageRangeMax + 1));
     }
 
+    public void Attack(Player player) {
+        player.Health -= GenAttackDamage();
+    }
+
     public void TakeDamage(int damage) {
         if (Health - damage < 0) {
             Health = 0;
