@@ -92,10 +92,10 @@ static class Program {
 
         // Quests
         // ----------------------------------------------------------------------
-        Quest quest_1_cafeTroubles = new Quest(421, "cafeTrouble", "The family café is overrun by rats! Your task is to eliminate the infestation", "🍵", 5, 5,weapon_familyHeirloomSword, player);
-        Quest quest_2_swampySituation = new Quest(422, "swampySituation", "You need to reach the hut but it'protected by a radius covered with venomous snakes.", "🐍", 7, 7, weapon_doubleFuckSword, player);
-        Quest quest_3_TheOldCastle = new Quest(423, "theOldCastle", " The name on the sword has lead you to the old castle where you need to break trough the spirits and spiders to climb the highest tower", "🏰", 9, 9,weapon_swordOfSheez, player);
-        Quest quest_end_TheTownSquare = new Quest(424, "theChosenOne", "You have defeated all the danger, set your battle in stone", "", 11, 11, null, player);
+        Quest quest_1_cafeTroubles = new Quest(421, "Cafe Trouble", "The family café is overrun by rats! Your task is to eliminate the infestation", "🍵", 5, 5,weapon_familyHeirloomSword, player);
+        Quest quest_2_swampySituation = new Quest(422, "Swampy Situation", "You need to reach the hut but it'protected by a radius covered with venomous snakes.", "🐍", 7, 7, weapon_doubleFuckSword, player);
+        Quest quest_3_TheOldCastle = new Quest(423, "The Old Castle", " The name on the sword has lead you to the old castle where you need to break trough the spirits and spiders to climb the highest tower", "🏰", 9, 9,weapon_swordOfSheez, player);
+        Quest quest_end_TheTownSquare = new Quest(424, "The Chosen One", "You have defeated all the danger, set your battle in stone", "", 11, 11, null, player);
 
         //Add the monsters to the Quest
         //Cafe troubles
@@ -331,8 +331,7 @@ static class Program {
             // how i gotta do that 
             // if Weapon in list weapon start endquest 
             // 
-            string WeaponCheck = "Sword of Sheez";
-
+            // string WeaponCheck = "Sword of Sheez";
 
             foreach (Weapon weapon in player.Armory) {
                 if (weapon.ID == 214) {

@@ -26,32 +26,33 @@ public class Quest {
         monsters = new List<Monster>();
     }
 
-  public void QuestDetails(){
-    Console.WriteLine ($"\nQuest: {Name}\nDescription: {Description}\nStatus: {Status}");
+    public void QuestDetails(){
+        Console.WriteLine ($"\nQuest: {Name}\nDescription: {Description}\nStatus: {Status}");
     }
-    public void AskToStartQues(){
-    Console.WriteLine("You have encountered a quest!");
-    Console.WriteLine("Do you accept the quest? (yes/no)");
-    string answer = Console.ReadLine().ToLower();
-    if (answer == "yes"){
-        StartQuest();
-    }
-    else{
-        Console.WriteLine("Quest denied");
-    }
-}
-private void StartQuest(){
-    Console.WriteLine("You have accepted the quest!");
-    Status = "In progress";
-    QuestDetails();
-}
 
-public void CompleteQuest(){
-    System.Console.WriteLine("You have completed the quest! ");
-    Status = "Completed";
-    Console.WriteLine("You have received a reward!");
-    GamePlayer.AddWeapon(RewardWeapon);
-        
+    public void AskToStartQuest(){
+        Console.WriteLine("You have encountered a quest!");
+        Console.WriteLine("Do you accept the quest?: yes (y) or no (n)");
+        string answer = Console.ReadLine().ToLower();
+        if (answer == "yes" | answer == "y"){
+            StartQuest();
+            GamePlayer.CurrentQuest = this;
+        } else {
+            Console.WriteLine("Quest denied");
+        }
+    }
+    private void StartQuest(){
+        Console.WriteLine("You have accepted the quest!");
+        Status = "In progress";
+        QuestDetails();
+    }
+
+    public void CompleteQuest(){
+        Console.WriteLine("You have completed the quest! ");
+        Status = "Completed";
+        Console.WriteLine("You have received a reward!");
+        Console.WriteLine("The item is added to your inventory");
+        GamePlayer.AddWeapon(RewardWeapon);
     }
 
     public void AddMonster(Monster monster) {
@@ -67,9 +68,7 @@ public void CompleteQuest(){
         }
 
         if (AreThereStillMonsters == 0) {
-            //Add code to complete the quest
+            CompleteQuest();
         }
     }
 }
-
-

@@ -73,8 +73,10 @@ public class Location {
                 foreach (Monster monster in Monsters) {
                     if (monster.LocationX == x & monster.LocationY == y) {
                         if (!somethingIsAlreadyOnThisLocation) {
-                            map_row += monster.MapIcon;
-                            somethingIsAlreadyOnThisLocation = true;
+                            if (monster.IsAlive()) {
+                                map_row += monster.MapIcon;
+                                somethingIsAlreadyOnThisLocation = true;
+                            }
                         }
                     }
                 }
@@ -111,14 +113,16 @@ public class Location {
     public void LocationCheck() {
         foreach (Quest quest in Quests) {
             if (quest.LocationX == Player.PositionX & quest.LocationY == Player.PositionY) {
-                
+                quest.AskToStartQuest();
             }
         }
 
         foreach (Monster monster in Monsters) {
             if (monster.LocationX == Player.PositionX & monster.LocationY == Player.PositionY) {
-                Fight fight = new Fight(Player, monster);
-                fight.StartFight();
+                if (monster.IsAlive()) {
+                    Fight fight = new Fight(Player, monster);
+                    fight.StartFight();
+                }
             }
         }
     }
