@@ -24,7 +24,7 @@ public class Monster
         LocationY = locationY;
     }
 
-    public int GenAttackDamage() {
+    public virtual int GenAttackDamage() {
         Random rnd = new Random();
         return rnd.Next(DamageRangeMin, (DamageRangeMax + 1));
     }
@@ -35,7 +35,7 @@ public class Monster
         return damage;
     }
 
-    public void TakeDamage(int damage) {
+    public virtual void TakeDamage(int damage) {
         if (Health - damage < 0) {
             Health = 0;
         } else {

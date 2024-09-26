@@ -76,6 +76,21 @@ static class Program {
         // The player always starts with 100% health
         Player player = new Player("The Hero", "⛄︎", weapon_rustySword);
 
+        //Give the player some starting items to be able to heal himself
+        //Golden Jolly Bee
+        for (int r = 0; r != 5; r++) {
+            player.AddHealingItem(healingItem_goldenJollyBee);
+        }
+        // Pondering Potion
+        for (int r = 0; r != 3; r++) {
+            player.AddHealingItem(healingItem_ponderingPotion);
+        }
+        //Zoom Shroom
+        for (int r = 0; r != 2; r++) {
+            player.AddHealingItem(healingItem_zoomShroom);
+        }
+        
+
         // Monsters
         // ----------------------------------------------------------------------
         Monster monster_rat1 = new Monster(101, "Rat", "rat, sharp claws, eyes burning with hunger.","🐀", 25, 1, 10, 5, 2);
@@ -89,6 +104,10 @@ static class Program {
         Monster monster_snake1 = new Monster(107,"Snake", "Snake, strikes with lethal precision.", "🐍", 100, 15, 40, 8, 22);
         Monster monster_snake2 = new Monster(108,"Snake", "Snake, strikes with lethal precision.", "🐍", 110, 15, 40, 2, 15);
         Monster monster_snake3 = new Monster(109,"Snake", "Snake, strikes with lethal precision.", "🐍", 130, 15, 40, 19, 3);
+
+        //Final Boss
+        // ----------------------------------------------------------------------
+        FinalBoss finalBoss = new FinalBoss(110, "The Spider King", "King of all Monsters", "🕷️", 28, 0);
 
         // Quests
         // ----------------------------------------------------------------------
@@ -137,6 +156,7 @@ static class Program {
         DarkBelow.AddMonster(monster_spider1);
         DarkBelow.AddMonster(monster_spider2);
         DarkBelow.AddMonster(monster_spider3);
+        DarkBelow.AddMonster(finalBoss);
 
         //Add Location doors to the map
         //Overworld
@@ -237,69 +257,80 @@ static class Program {
             }
         }
 
-        while (!game_won || !game_over) {
+        while (!game_won | !game_over) {
             Console.Clear();
-            CheckEnding();
-            current_location.LocationCheck();
-            current_location.GenMap();
-            player.PrintMenu();
-            var input = Console.ReadKey();
+            if (player.IsAlive()) {
+                CheckReadyForEndingCheck();
+                // current_location.LocationCheck();
+                current_location.GenMap();
+                player.PrintMenu();
+                var input = Console.ReadKey();
 
-            switch (input.Key) {
-                case ConsoleKey.S: case ConsoleKey.DownArrow:
-                    if (player.PositionY + 1 > current_location.LocationSizeY) {
+                switch (input.Key) {
+                    case ConsoleKey.S: case ConsoleKey.DownArrow:
+                        if (player.PositionY + 1 > current_location.LocationSizeY) {
+                            Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
+                        } else {
+                            Console.WriteLine($"{player.Name}: I moved one place to the North");
+                            player.PositionY += 1;
+                            current_location.LocationCheck();
+                            checkForNewLocation();
+                        }
+                        break;
+                    case ConsoleKey.E: case ConsoleKey.RightArrow:
+                        if (player.PositionX + 1 > current_location.LocationSizeX) {
+                            Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
+                        } else {
+                            Console.WriteLine($"{player.Name}: I moved one place to the East");
+                            player.PositionX += 1;
+                            current_location.LocationCheck();
+                            checkForNewLocation();
+                        }
+                        break;
+                    case ConsoleKey.N: case ConsoleKey.UpArrow:
+                        if (player.PositionY - 1 > current_location.LocationSizeY || player.PositionY - 1 < 0) {
+                            Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
+                        } else {
+                            Console.WriteLine($"{player.Name}: I moved one place to the South");
+                            player.PositionY -= 1;
+                            current_location.LocationCheck();
+                            checkForNewLocation();
+                        }
+                        break;
+                    case ConsoleKey.W: case ConsoleKey.LeftArrow:
+                        if (player.PositionX - 1 > current_location.LocationSizeX || player.PositionX - 1 < 0) {
+                            Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
+                        } else {
+                            Console.WriteLine($"{player.Name}: I moved one place to the West");
+                            player.PositionX -= 1;
+                            current_location.LocationCheck();
+                            checkForNewLocation();
+                        }
+                        break;
+                    case ConsoleKey.Q:
+                        player.CurrentQuest.QuestDetails();
+                        Thread.Sleep (2000);
+                        break;
+                    case ConsoleKey.I:
+                        player.Inventroy();
+                        break;
+                    case ConsoleKey.R:
+                        player.SwitchWeaponMenu();
+                        break;
+                    default:
                         Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
-                    } else {
-                        Console.WriteLine($"{player.Name}: I moved one place to the North");
-                        player.PositionY += 1;
-                        current_location.LocationCheck();
-                        checkForNewLocation();
-                    }
-                    break;
-                case ConsoleKey.E: case ConsoleKey.RightArrow:
-                    if (player.PositionX + 1 > current_location.LocationSizeX) {
-                        Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
-                    } else {
-                        Console.WriteLine($"{player.Name}: I moved one place to the East");
-                        player.PositionX += 1;
-                        current_location.LocationCheck();
-                        checkForNewLocation();
-                    }
-                    break;
-                case ConsoleKey.N: case ConsoleKey.UpArrow:
-                    if (player.PositionY - 1 > current_location.LocationSizeY || player.PositionY - 1 < 0) {
-                        Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
-                    } else {
-                        Console.WriteLine($"{player.Name}: I moved one place to the South");
-                        player.PositionY -= 1;
-                        current_location.LocationCheck();
-                        checkForNewLocation();
-                    }
-                    break;
-                case ConsoleKey.W: case ConsoleKey.LeftArrow:
-                    if (player.PositionX - 1 > current_location.LocationSizeX || player.PositionX - 1 < 0) {
-                        Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
-                    } else {
-                        Console.WriteLine($"{player.Name}: I moved one place to the West");
-                        player.PositionX -= 1;
-                        current_location.LocationCheck();
-                        checkForNewLocation();
-                    }
-                    break;
-                case ConsoleKey.Q:
-                    player.CurrentQuest.QuestDetails();
-                    Thread.Sleep (2000);
-                    break;
-                case ConsoleKey.I:
-                    break;
-                case ConsoleKey.R:
-                    player.SwitchWeaponMenu();
-                    break;
-                default:
-                    Console.WriteLine($"{player.Name}: Oh no, i can't move that way");
-                    break;
+                        break;
+                }
+            } else {
+                game_over = true;
+                Functions.gameOverScreen();
+                Environment.Exit(0);
             }
         }
+        Console.Clear();
+        Functions.winScreen();
+        Thread.Sleep(5000);
+        Functions.endCreditScreen();
 
         void checkForNewLocation() {
             Dictionary<bool, Location> response = DoorToNextLocationCheck(current_location, player);
@@ -323,7 +354,7 @@ static class Program {
             }
         }
 
-        void CheckEnding() {
+        void CheckReadyForEndingCheck() {
             // add a part that yeets you to the townsquare location to do the swordy and end the game
             // if all three stages of end boss is done 
 
@@ -336,6 +367,9 @@ static class Program {
             foreach (Weapon weapon in player.Armory) {
                 if (weapon.ID == 214) {
                     player.CurrentQuest = quest_end_TheTownSquare;
+                }
+                if (weapon.ID == 214 & current_location == Town & player.PositionX == 28 & player.PositionY == 15) {
+                    game_won = true;
                 }
             }
         }

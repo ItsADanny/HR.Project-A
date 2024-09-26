@@ -10,6 +10,7 @@ public class Quest {
     public Weapon RewardWeapon;
     public Player GamePlayer;
     public List<Monster> monsters;
+    
 
 
     public Quest(int id, string name, string description, string map_icon, int location_x, int location_y, Weapon rewardweapon, Player gameplayer) {
@@ -24,11 +25,13 @@ public class Quest {
         RewardWeapon = rewardweapon;
         GamePlayer = gameplayer;
         monsters = new List<Monster>();
+       
+        
     }
-
     public void QuestDetails(){
         Console.WriteLine ($"\nQuest: {Name}\nDescription: {Description}\nStatus: {Status}");
     }
+    
 
     public void AskToStartQuest(){
         Console.WriteLine("You have encountered a quest!");
@@ -45,11 +48,14 @@ public class Quest {
         Console.WriteLine("You have accepted the quest!");
         Status = "In progress";
         QuestDetails();
+        QuestCompleteCheck();
     }
 
     public void CompleteQuest(){
         Console.WriteLine("You have completed the quest! ");
         Status = "Completed";
+        Completed = true;
+        GamePlayer.CurrentQuest = new Quest(420, "No quest", "", "", 0, 0, null,null );
         Console.WriteLine("You have received a reward!");
         Console.WriteLine("The item is added to your inventory");
         GamePlayer.AddWeapon(RewardWeapon);
@@ -58,17 +64,20 @@ public class Quest {
     public void AddMonster(Monster monster) {
         monsters.Add(monster);
     }
-
+    
+    
     public void QuestCompleteCheck() {
-        int AreThereStillMonsters = 0;
+        int MonstersLeft = 0;
         foreach (Monster monster in monsters) {
             if (monster.IsAlive()) {
-                AreThereStillMonsters++;
+                MonstersLeft++;
             }
         }
-
-        if (AreThereStillMonsters == 0) {
+        Console.WriteLine($"Monsters left: {MonstersLeft}");
+        if (MonstersLeft == 0) {
             CompleteQuest();
+        } else {
+            Console.WriteLine("The quest is still in progress.");
         }
     }
-}
+} 

@@ -64,8 +64,10 @@ public class Location {
                 foreach (Quest quest in Quests) {
                     if (quest.LocationX == x & quest.LocationY == y) {
                         if (!somethingIsAlreadyOnThisLocation) {
-                            map_row += quest.MapIcon;
-                            somethingIsAlreadyOnThisLocation = true;
+                            if (!quest.Completed) {
+                                map_row += quest.MapIcon;
+                                somethingIsAlreadyOnThisLocation = true;
+                            }
                         }
                     }
                 }
@@ -115,6 +117,7 @@ public class Location {
             if (quest.LocationX == Player.PositionX & quest.LocationY == Player.PositionY) {
                 quest.AskToStartQuest();
             }
+            quest.QuestCompleteCheck();
         }
 
         foreach (Monster monster in Monsters) {

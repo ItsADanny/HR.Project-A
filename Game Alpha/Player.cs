@@ -173,12 +173,130 @@ public class Player
     }
 
     //ItsDanny - This is still being worked on, and will be updated soon
-    // public void Inventroy() {
-    //     Console.Clear();
-    //     Dictionary<int, Dictionary<int, string>> dict_inventory = new Dictionary<int, Dictionary<int, string>>();
-    //     int i = 1;
-    //     foreach (Item item in Inventory) {
-    //         foreach (Dictionary<int, string> dict)
-    //     }
-    // }
+    public void Inventroy() {
+        Console.Clear();
+        Console.WriteLine("{O}===}---{ Inventory 🎒 }---{==={O}");
+        Console.WriteLine("Options:");
+        Console.WriteLine("(H) - Open the Bag of Healing");
+        Console.WriteLine("(B) - Open the backpack");
+        Console.WriteLine("(Q) - Exit inventory");
+        Console.WriteLine("{O}===}---{ Inventory 🎒 }---{==={O}");
+        bool validResponse = false;
+        while (!validResponse) {
+            string str_choice = Console.ReadLine();
+            switch (str_choice) {
+                case "h":
+                    OpenBagOfHealing();
+                    validResponse = true;
+                    break;
+                case "b":
+                    OpenInventory();
+                    validResponse = true;
+                    break;
+                case "q":
+                    validResponse = true;
+                    break;
+                default:
+                    Console.WriteLine($"{Name} : Oh no i don't give a valid awnser, i am going to try that again");
+                    break;
+            }
+        }
+    }
+
+    public void OpenBagOfHealing() {
+        Console.Clear();
+        Dictionary<HealingItem, int> dict_BagOfHealing = new Dictionary<HealingItem, int>();
+        Dictionary<int, HealingItem> dict_BagOfHealingItemsOptions = new Dictionary<int, HealingItem>();
+        int e = 1;
+        foreach (HealingItem healingitem in HealingItems) {
+            if (dict_BagOfHealing.ContainsKey(healingitem)) {
+                dict_BagOfHealing[healingitem]++;
+            } else {
+                dict_BagOfHealing.Add(healingitem, 1);
+                dict_BagOfHealingItemsOptions.Add(e, healingitem);
+                e++;
+            }
+        }
+        Console.WriteLine("{O}===}---{ Bag of Healing 🩹 }---{==={O}");
+        Console.WriteLine("Options:");
+        int i = 1;
+        foreach (KeyValuePair<HealingItem, int> healingItemRow in dict_BagOfHealing) {
+            Console.WriteLine($"{i} - {healingItemRow.Key} : x{healingItemRow.Value}");
+            i++;
+        }
+        Console.WriteLine("Q - Exit the Bag of healing");
+        Console.WriteLine("{O}===}---{ Bag of Healing 🩹 }---{==={O}");
+        bool validResponse = false;
+        while (!validResponse) {
+            string str_choice = Console.ReadLine();
+            switch (str_choice.ToLower()) {
+                case "1": case "2": case "3":
+                    if (dict_BagOfHealing[dict_BagOfHealingItemsOptions[Convert.ToInt32(str_choice)]] >= 1) {
+                        List<HealingItem> editedInventory = new List<HealingItem>();
+                        bool itemRemoved = false;
+                        foreach (HealingItem healingitem in HealingItems) {
+                            if (healingitem == dict_BagOfHealingItemsOptions[Convert.ToInt32(str_choice)]) {
+                                if (!itemRemoved) {
+                                    HealthIncrease(healingitem.HealingAmount);
+                                    itemRemoved = true;
+                                } else {
+                                    editedInventory.Add(healingitem);
+                                }
+                            }
+                        } 
+                        HealingItems = editedInventory;
+                        validResponse = true;
+                        Console.WriteLine($"* {Name} : Has used a {dict_BagOfHealingItemsOptions[Convert.ToInt32(str_choice)]} and has received +{dict_BagOfHealingItemsOptions[Convert.ToInt32(str_choice)].HealingAmount} to his health*");
+                        Thread.Sleep(2000);
+                    } else {
+                        Console.WriteLine($"{Name} : Oh no i don't have that healing item, i am going to try that again");
+                    }
+                    break;
+                case "q":
+                    validResponse = true;
+                    break;
+                default:
+                    Console.WriteLine($"{Name} : Oh no i don't give a valid awnser, i am going to try that again");
+                    break;
+            }
+        }
+    }
+
+    public void OpenInventory() {
+        Console.Clear();
+        Dictionary<Item, int> dict_BagOfHealing = new Dictionary<Item, int>();
+        Dictionary<int, Item> dict_BagOfHealingItemsOptions = new Dictionary<int, Item>();
+        int e = 1;
+        foreach (Item healingitem in Inventory) {
+            if (dict_BagOfHealing.ContainsKey(healingitem)) {
+                dict_BagOfHealing[healingitem]++;
+            } else {
+                dict_BagOfHealing.Add(healingitem, 1);
+                dict_BagOfHealingItemsOptions.Add(e, healingitem);
+                e++;
+            }
+        }
+        Console.WriteLine("{O}===}---{ Backpack 🎒 }---{==={O}");
+        int i = 1;
+        foreach (KeyValuePair<Item, int> healingItemRow in dict_BagOfHealing) {
+            Console.WriteLine($"{healingItemRow.Key} : x{healingItemRow.Value}");
+            i++;
+        }
+        Console.WriteLine("{O}===}---{ Backpack 🎒 }---{==={O}");
+        Console.WriteLine("Options:");
+        Console.WriteLine("Q - Exit the Backpack");
+        Console.WriteLine("{O}===}---{ Backpack 🎒 }---{==={O}");
+        bool validResponse = false;
+        while (!validResponse) {
+            string str_choice = Console.ReadLine();
+            switch (str_choice.ToLower()) {
+                case "q":
+                    validResponse = true;
+                    break;
+                default:
+                    Console.WriteLine($"{Name} : Oh no i don't give a valid awnser, i am going to try that again");
+                    break;
+            }
+        }
+    }
 }
