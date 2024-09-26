@@ -107,7 +107,7 @@ public class Location {
             // Print the map row
             Console.WriteLine(map_row);
         }
-
+ 
         // Map border
         Console.WriteLine(fancyMapBorder);
     }
